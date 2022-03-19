@@ -26,30 +26,30 @@ class AuthController extends Controller
         $user = User::where('email', $email)->first(); //select * from users where email = email
 
         if (!$user) {
-            $out = [
+            $data = [
                 'status' => false,
                 'msg' => 'Email not found',
                 'code' => 401,
             ];
-            return response()->json($out);
+            return response()->json($data);
         }
 
         //check if password user exist
         if (Hash::check($password, $user->password)) {
             $check = Auth::attempt(['email' => $email, 'password' => $password]);
-            $out = [
+            $data = [
                 'status' => true,
                 'msg' => 'Login success',
                 'code' => 200,
             ];
         } else {
-            $out = [
+            $data = [
                 'status' => false,
                 'msg' => 'Password not match',
                 'code' => 401,
             ];
         }
-        return response()->json($out);
+        return response()->json($data);
     }
 
     //fnction register
